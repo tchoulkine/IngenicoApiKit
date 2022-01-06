@@ -1,0 +1,689 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
+// swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name IngenicoAPIKit
+import Combine
+import CommonCrypto
+import CryptoKit
+import Foundation
+@_exported import IngenicoAPIKit
+import Swift
+import _Concurrency
+import os
+extension IngenicoAPIKit.GAPI.Transaction {
+  public struct TransactionType : Swift.Equatable {
+    public var value: Swift.Int
+    public var label: Swift.String
+    public static func == (lhs: IngenicoAPIKit.GAPI.Transaction.TransactionType, rhs: IngenicoAPIKit.GAPI.Transaction.TransactionType) -> Swift.Bool
+    public init(value: Swift.Int, label: Swift.String? = nil)
+  }
+}
+extension IngenicoAPIKit.GAPI.Transaction {
+  public enum TransactionTypes {
+    public static let PAYMENT_SALE: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let PAYMENT_SALE_WITH_CASH: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let PAYMENT_SALE_VOID: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let PAYMENT_SALE_WITH_TIP: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let PAYMENT_WITH_CASH_OUT: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let PAYMENT_SALE_REFUND: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let CASH_OUT_WITHDRAWAL: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let PRE_AUTHORIZATION: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let PRE_AUTHORIZATION_VOID: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let PRE_AUTHORIZATION_COMPLETION: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let TIP_ADJUST: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let CARD_BALANCE_INQUIRY: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let AUTH_ONLY: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let INCREMENTAL_AUTH: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let FORCE_PRE_AUTHORIZATION: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let INSTALLMENT: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let TOP_UP: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let QUASI_CASH: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let CARD_ACTIVATION: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let FUND_TRANSFERT_PUSH: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let FUND_TRANSFERT: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let FUND_TRANSFERT_PULL: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let CARD_VERIFICATION: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let CASH_DEPOSIT: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let DEFERRED_PAYEMENT: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let PIN_CHANGE: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let RESERVATION_INITIAL: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let RESERVATION: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let NO_SHOW: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let RESERVATION_UPDATE: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let RESERVATION_PAYMENT: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let VOICE_AUTHORISATION: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public static let predefinedTransactionTypeList: [IngenicoAPIKit.GAPI.Transaction.TransactionType]
+  }
+}
+public let gapi: IngenicoAPIKit.GAPI
+@_hasMissingDesignatedInitializers public class GAPI {
+  public var autoReconnect: Swift.Bool
+  public var printerManager: IngenicoAPIKit.GAPI.PrinterManager {
+    get
+    set
+  }
+  public var logger: IngenicoAPIKit.Logger {
+    get
+    set
+  }
+  public var transaction: IngenicoAPIKit.GAPI.Transaction {
+    get
+    set
+  }
+  public var apiManagement: IngenicoAPIKit.GAPI.ApiManagement {
+    get
+    set
+  }
+  weak public var delegate: IngenicoAPIKit.GAPI.GAPISessionDelegate?
+  public static var shared: IngenicoAPIKit.GAPI
+  public var version: Swift.String
+  public var isSessionOpen: Swift.Bool
+  public func getAvailableTerminals() -> [Swift.String]
+  public func openSession(withTerminal: Swift.String, completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
+  public func openSessionWithPairing(withTerminal: Swift.String, pinCode: Swift.String, completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
+  public func closeSession(completion: @escaping (Swift.Result<Swift.Void, Swift.Error>) -> Swift.Void)
+  @objc deinit
+}
+extension IngenicoAPIKit.GAPI.Transaction {
+  public enum Errors : Swift.Error {
+    case anotherTransactionInProgress
+    public static func == (a: IngenicoAPIKit.GAPI.Transaction.Errors, b: IngenicoAPIKit.GAPI.Transaction.Errors) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+}
+public protocol _ProtoTransactionResult {
+  var status: IngenicoAPIKit.GAPI.Transaction.TransactionStatus? { get }
+  var currency: Swift.Int? { get }
+  var authorizedAmount: IngenicoAPIKit.BigDecimal? { get }
+  var totalAmount: IngenicoAPIKit.BigDecimal? { get }
+  var effectivePaymentMean: Swift.Int? { get }
+  var transactionId: Swift.String? { get }
+  var invoiceId: Swift.String? { get }
+  var actionCode: Swift.String? { get }
+  var cardType: Swift.Int? { get }
+  var productCodeId: Swift.String? { get }
+  var isOnlineTransaction: Swift.Bool? { get }
+  var cardBrand: Swift.Int? { get }
+  var acquirerCode: Swift.String? { get }
+  var additionalInformation: Swift.String? { get }
+  var timeStamp: Swift.String? { get }
+  var stan: Swift.String? { get }
+  var maskedPan: Swift.String? { get }
+  var retrievalReferenceNumber: Swift.String? { get }
+  var acquirerToken: [IngenicoAPIKit.BYTE]? { get }
+  var expirationDate: Swift.String? { get }
+  var terminalId: Swift.String? { get }
+  var merchantId: Swift.String? { get }
+  var cashbackAmount: IngenicoAPIKit.BigDecimal? { get }
+  var tipAmount: IngenicoAPIKit.BigDecimal? { get }
+  var donationAmount: IngenicoAPIKit.BigDecimal? { get }
+  var otherFeesAmount: IngenicoAPIKit.BigDecimal? { get }
+  var ngoId: Swift.String? { get }
+  var issuerIdentificationNumber: Swift.String? { get }
+  var approvalCode: Swift.String? { get }
+  var amount: IngenicoAPIKit.BigDecimal? { get }
+  var surchargeAmount: IngenicoAPIKit.BigDecimal? { get }
+  var usedApplication: IngenicoAPIKit.GAPI.Transaction.UsedApplication? { get }
+  var cashAmount: IngenicoAPIKit.BigDecimal? { get }
+  var emvCardAid: [IngenicoAPIKit.BYTE]? { get }
+  var emvPanSequenceNumber: Swift.Int? { get }
+  var emvAtc: Swift.Int? { get }
+  var emvTvr: [IngenicoAPIKit.BYTE]? { get }
+  var emvTsi: [IngenicoAPIKit.BYTE]? { get }
+  var emvCvmResults: [IngenicoAPIKit.BYTE]? { get }
+  var motoType: Swift.Int? { get }
+  var customerId: Swift.String? { get }
+  var customerStatus: Swift.Int? { get }
+  var accountId: Swift.String? { get }
+  var installmentNumber: Swift.String? { get }
+  var promotionalMessage: Swift.String? { get }
+  var receiptNumber: Swift.String? { get }
+}
+public protocol _ProtoCurrency {
+  var code: Swift.String? { get }
+  var minorUnit: Swift.Int? { get }
+  var numericCode: Swift.Int? { get }
+}
+public protocol _ProtoPaymentMeanData {
+  var label: Swift.String? { get }
+  var mean: Swift.Int? { get }
+  var serviceClass: Swift.String? { get }
+}
+public protocol _ProtoUsedApplication {
+  var applicationIdentifier: Swift.Int? { get }
+  var serviceClassName: Swift.String? { get }
+}
+public protocol _ProtoTransactionDelegate : AnyObject {
+  func transactionDone(_ result: Swift.Result<IngenicoAPIKit.GAPI.Transaction.TransactionResult, Swift.Error>)
+}
+public protocol _ProtoTransactionRequest {
+  var transactionStatus: IngenicoAPIKit.GAPI.Transaction.TransactionStatus { get }
+  var recoveryId: Swift.Int? { get }
+  var isRequestAccepted: Swift.Bool { get }
+}
+extension IngenicoAPIKit.GAPI.Transaction {
+  public typealias TransactionRequest = IngenicoAPIKit._ProtoTransactionRequest
+  public typealias TransactionResult = IngenicoAPIKit._ProtoTransactionResult
+  public typealias TransactionDelegate = IngenicoAPIKit._ProtoTransactionDelegate
+  public typealias Currency = IngenicoAPIKit._ProtoCurrency
+  public typealias UsedApplication = IngenicoAPIKit._ProtoUsedApplication
+  public typealias PaymentMeanData = IngenicoAPIKit._ProtoPaymentMeanData
+}
+extension IngenicoAPIKit.GAPI.Transaction {
+  public enum AuthorizationType {
+    case Online
+    case Offline
+    public static func == (a: IngenicoAPIKit.GAPI.Transaction.AuthorizationType, b: IngenicoAPIKit.GAPI.Transaction.AuthorizationType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+}
+extension IngenicoAPIKit.GAPI {
+  public enum CommunicationErrors : Swift.Error, Swift.Equatable {
+    case alreadyConnected
+    case unableToConnect
+    case timeout
+    case PclConnectionTimeout
+    case WSConnectionTimeout
+    case badFormatOfResponse
+    case ErrorEvent(_: Swift.Int)
+    case deviceNotFound
+    public static func == (a: IngenicoAPIKit.GAPI.CommunicationErrors, b: IngenicoAPIKit.GAPI.CommunicationErrors) -> Swift.Bool
+  }
+  public enum GeneralErrors : Swift.Error, Swift.Equatable {
+    case JsonConversion
+    case IllegalArgument(_: Swift.String)
+    case InvalidContentOfResponse(_: Swift.String)
+    case RequestFailed(_: Swift.Int)
+    public static func == (a: IngenicoAPIKit.GAPI.GeneralErrors, b: IngenicoAPIKit.GAPI.GeneralErrors) -> Swift.Bool
+  }
+  public enum PCLErrors : Swift.Error {
+    case OnStart
+    public static func == (a: IngenicoAPIKit.GAPI.PCLErrors, b: IngenicoAPIKit.GAPI.PCLErrors) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+}
+extension IngenicoAPIKit.GAPI.ApiManagement {
+  public enum Errors : Swift.Error {
+    case TerminalSettingsNotAvailable
+    case ServerCommunicationSessionError(error: Swift.Error)
+    case ServerCommunicationSessionNoServerResponse
+    case ServerCommunicationSessionServerResponseFormatError
+    case ServerCommunicationSessionServerError(statusCode: Swift.Int)
+    case DataError
+    case OperationError(status: Darwin.OSStatus)
+    case TokenCreateError(status: Darwin.OSStatus)
+    case TokenStorageTokenFindError(status: Darwin.OSStatus)
+    case TokenReadError(status: Darwin.OSStatus)
+    case TokenWriteError(status: Darwin.OSStatus)
+    case TokenDeleteError(status: Darwin.OSStatus)
+  }
+}
+public protocol _ProtoPrinterManagerDelegate : AnyObject {
+  func printEventProcessing(result: Swift.Result<IngenicoAPIKit.GAPI.PrinterManager.PrintEvent, Swift.Error>)
+}
+extension IngenicoAPIKit.GAPI.PrinterManager {
+  public typealias Delegate = IngenicoAPIKit._ProtoPrinterManagerDelegate
+}
+extension IngenicoAPIKit.GAPI {
+  public class Survey {
+    public init()
+    weak public var delegate: IngenicoAPIKit.GAPI.Survey.SurveyDelegate? {
+      get
+      set
+    }
+    public func show(message: Swift.String, settings: IngenicoAPIKit.GAPI.Survey.SurveySettings) throws
+    public func hide() throws
+    @objc deinit
+  }
+}
+public protocol _ProtoSurveyResult {
+  var ratingValue: Swift.Int? { get }
+  var status: Swift.Int? { get }
+}
+public protocol _ProtoSurveyDelegatete : AnyObject {
+  func surveyDone(_ result: Swift.Result<IngenicoAPIKit.GAPI.Survey.SurveyResult, Swift.Error>)
+}
+extension IngenicoAPIKit.GAPI.Survey {
+  public typealias SurveyDelegate = IngenicoAPIKit._ProtoSurveyDelegatete
+  public typealias SurveyResult = IngenicoAPIKit._ProtoSurveyResult
+}
+extension IngenicoAPIKit.GAPI.Survey {
+  public enum SurveyFormat : Swift.Int {
+    case star
+    case smiley
+    case dot
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public struct SurveySettings {
+    public var ratingMaxValue: Swift.Int
+    public var surveyFormat: IngenicoAPIKit.GAPI.Survey.SurveyFormat
+    public init()
+  }
+}
+extension IngenicoAPIKit.GAPI {
+  @_hasMissingDesignatedInitializers public class ApiManagement {
+    public func subscribe(token: Swift.String, isvRecord: Swift.String = "", forceRenewal: Swift.Bool = false, completion: @escaping (Swift.Result<Swift.Int, Swift.Error>) -> Swift.Void)
+    @objc deinit
+  }
+}
+extension IngenicoAPIKit.GAPI.Transaction {
+  public enum TransactionStatus : Swift.Int {
+    case TXN_STATUS_OK
+    case TXN_STATUS_INVALID_OBJECT
+    case TXN_STATUS_MEMORY
+    case TXN_STATUS_L1_INTERFACE_NOT_LOADED
+    case TXN_STATUS_NOT_AUTHORIZED
+    case TXN_STATUS_NOT_ALLOWED
+    case TXN_STATUS_INVALID_INPUT_DATA
+    case TXN_STATUS_MISSING_DATA
+    case TXN_STATUS_RNG_ERROR
+    case TXN_STATUS_NO_PARAMETERS
+    case TXN_STATUS_NOT_AVAILABLE
+    case TXN_STATUS_NO_ELIGIBLE_CRITERIA
+    case TXN_STATUS_EP_PPR_NOT_EXECUTED
+    case TXN_STATUS_PPSE_MATCHED
+    case TXN_STATUS_NO_MATCHING_METHOD
+    case TXN_STATUS_CARD_BLOCKED
+    case TXN_STATUS_PPSE_APPLICATION_BLOCKED
+    case TXN_STATUS_PPSE_UNEXPECTED_SW
+    case TXN_STATUS_COMMUNICATION_ERROR
+    case TXN_STATUS_ABORTED
+    case TXN_STATUS_NOT_IN_PROGRESS
+    case TXN_STATUS_FUNCTION_NOT_IMPLEMENTED
+    case TXN_STATUS_COMPONENT_NOT_LOADED
+    case TXN_STATUS_KO
+    case TXN_STATUS_MUTEX_ERROR
+    case TXN_STATUS_L1_NOT_OPENED
+    case TXN_STATUS_PPSE_NOT_FOUND
+    case TXN_STATUS_CARD_DATA_ERROR
+    case TXN_STATUS_CARD_DATA_MISSING
+    case TXN_STATUS_CARD_DATA_REDUNDANT
+    case TXN_STATUS_SEMAPHORE_ERROR
+    case TXN_STATUS_LIB_INTERFACE_ERROR
+    case TXN_STATUS_SERVICE_NOT_AVAILABLE
+    case TXN_STATUS_NOT_LOADED
+    case TXN_STATUS_LOA_MATCHED
+    case TXN_STATUS_APDU_BEFORE_MATCHED
+    case TXN_STATUS_APDU_AFTER_MATCHED
+    case TXN_STATUS_CLASE_NOT_LOADED
+    case TXN_STATUS_EP_NOT_LOADED
+    case TXN_STATUS_LOA_NOT_LOADED
+    case TXN_STATUS_APDU_NOT_LOADED
+    case TXN_STATUS_NO_CLESS_APPLICATION
+    case TXN_STATUS_APP_UNEXPECTED_RETURN
+    case TXN_STATUS_APP_INVALID_DATA
+    case TXN_STATUS_APP_MISSING_DATA
+    case TXN_STATUS_TXN_NOT_ALLOWED
+    case TXN_STATUS_BAD_CARD_RESPONSE_FOLLOWING_RESELECTION
+    case TXN_STATUS_CARD_ERROR
+    case TXN_STATUS_UNEXPECTED_SW
+    case TXN_STATUS_DATABASE_ERROR
+    case TXN_STATUS_MOBILE
+    case TXN_STATUS_APPLICATION_BLOCKED
+    case TXN_STATUS_CONDITIONS_OF_USE_NOT_SATISFIED
+    case TXN_STATUS_CARD_UNKNOWN
+    case TXN_STATUS_ALREADY_CONNECTED
+    case TXN_STATUS_CARD_REMOVED
+    case TXN_STATUS_NOT_CONNECTED
+    case TXN_STATUS_CARD_MUTE
+    case TXN_STATUS_EXPIRED_CERTIFICATE
+    case TXN_STATUS_FINAL_SELECT_NOT_DONE
+    case TXN_STATUS_MUTEX_TIMEOUT
+    case TXN_STATUS_CARD_ALREADY_INSERTED
+    case TXN_STATUS_TECHNO_NOT_SUPPORTED
+    case TXN_STATUS_RECOVERY_ID_NOT_FOUND
+    case TXN_STATUS_TXN_USE_CONTACT_INTERFACE
+    case TXN_STATUS_TXN_USE_CHIP_ONLY
+    case TXN_STATUS_TXN_USE_SWIPE_ONLY
+    case TXN_STATUS_TXN_RESTART_A
+    case TXN_STATUS_TXN_RESTART_B_COMM_ERROR
+    case TXN_STATUS_TXN_RESTART_B_TRY_AGAIN
+    case TXN_STATUS_TXN_RESTART_B_OTHER
+    case TXN_STATUS_TXN_RESTART_B_DOUBLE_TAP
+    case TXN_STATUS_TXN_RESTART_B_SAME_METHOD
+    case TXN_STATUS_TXN_RESTART_C
+    case TXN_STATUS_TXN_RESTART_D
+    case TXN_STATUS_TXN_APPROVED
+    case TXN_STATUS_TXN_DECLINED
+    case TXN_STATUS_TXN_ABORTED
+    case TXN_STATUS_TXN_TERMINATED
+    case TXN_STATUS_TXN_CARD_NOT_SUPPORTED
+    case TXN_STATUS_TXN_NO_CARD
+    case TXN_STATUS_TXN_ONLINE_REQUEST
+    case TXN_STATUS_TXN_RESTART_SWIPE
+    case TXN_STATUS_TXN_RESTART_CHIP
+    case TXN_STATUS_TXN_RESTART_C_SAME_METHOD
+    case TXN_STATUS_TXN_FALLBACK_ON_SWIPE
+    case TXN_STATUS_TXN_SUSPENDED
+    case TXN_STATUS_INVALID_COMPONENT_VERSION
+    case TXN_STATUS_INTERNAL_ERROR
+    case TXN_STATUS_UNKNOWN
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension IngenicoAPIKit.GAPI {
+  public class Basket {
+    public init()
+    weak public var delegate: IngenicoAPIKit.GAPI.Basket.BasketDelegate? {
+      get
+      set
+    }
+    public func show() throws
+    public func setContent(content: IngenicoAPIKit.GAPI.Basket.BasketContent) throws
+    public func hide() throws
+    @objc deinit
+  }
+}
+extension IngenicoAPIKit.GAPI.Basket {
+  public struct BasketItem {
+    public var formattedTotalItemPrice: Swift.String
+    public var name: Swift.String
+    public let quantity: Swift.Int
+    public init(formattedTotalItemPrice: Swift.String, name: Swift.String, quantity: Swift.Int)
+  }
+  public struct BasketContent {
+    public var basketItems: [IngenicoAPIKit.GAPI.Basket.BasketItem]
+    public var formattedBasketPrice: Swift.String
+    public init(basketItems: [IngenicoAPIKit.GAPI.Basket.BasketItem], formattedBasketPrice: Swift.String)
+  }
+}
+public protocol _ProtoBasketDelegate : AnyObject {
+  func basketProcessingDone(_ result: Swift.Result<IngenicoAPIKit.GAPI.Basket.BasketProcessingResult, Swift.Error>)
+}
+public protocol _ProtoBasketProcessingResult {
+  var isBasketValidated: Swift.Bool? { get }
+}
+extension IngenicoAPIKit.GAPI.Basket {
+  public typealias BasketDelegate = IngenicoAPIKit._ProtoBasketDelegate
+  public typealias BasketProcessingResult = IngenicoAPIKit._ProtoBasketProcessingResult
+}
+extension IngenicoAPIKit.GAPI.Transaction {
+  public enum MotoType : Swift.Int {
+    case NO
+    case MANUAL
+    case ECOM
+    case MOTO
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension IngenicoAPIKit.GAPI {
+  @_hasMissingDesignatedInitializers public class MessageService {
+    @objc deinit
+  }
+}
+extension IngenicoAPIKit.GAPI.Transaction {
+  public class TransactionInputData {
+    public init()
+    public var transactionType: IngenicoAPIKit.GAPI.Transaction.TransactionType
+    public var amount: Foundation.Decimal?
+    public var currency: Swift.Int?
+    public var paymentMeans: [IngenicoAPIKit.GAPI.Transaction.PaymentMeans]
+    public func addPaymentMean(_ value: IngenicoAPIKit.GAPI.Transaction.PaymentMeans)
+    public func addPaymentMean(_ value: IngenicoAPIKit.GAPI.Transaction.PaymentMeanData) throws
+    public var paymentApplications: [Swift.String]?
+    public var invoiceId: Swift.String?
+    public var stan: Swift.String?
+    public var transactionId: Swift.String?
+    public var productCodeId: Swift.String?
+    public var cardType: Swift.Int?
+    public var forceAutho: Swift.Bool?
+    public var isForceAutho: Swift.Bool? {
+      get
+    }
+    public var cashierId: Swift.String?
+    public var approvalCode: Swift.String?
+    public var retrievalReferenceNumber: Swift.String?
+    public var acquirerTransactionType: IngenicoAPIKit.GAPI.Transaction.TransactionType?
+    public var cardholderName: Swift.String?
+    public var tipAmount: Foundation.Decimal?
+    public var cashbackAmount: Foundation.Decimal?
+    public var donationAmount: Foundation.Decimal?
+    public var otherFeesAmount: Foundation.Decimal?
+    public var ngoId: Swift.String?
+    public var surchargeAmount: Foundation.Decimal?
+    public var cashAmount: Foundation.Decimal?
+    public var motoType: Swift.Int?
+    public var installmentNumber: Swift.String?
+    public var merchantId: Swift.String?
+    public var receiptNumber: Swift.String?
+    public var timeStamp: Swift.String?
+    public var initialPreauthAmount: Foundation.Decimal?
+    @objc deinit
+  }
+}
+extension IngenicoAPIKit.GAPI.Transaction {
+  public enum CardBrands : Swift.Int {
+    case DEBIT
+    case VISA
+    case MASTERCARD
+    case AMEX
+    case DINERS_CLUB
+    case DISCOVER_CARD
+    case JCB
+    case UNION_PAY_CARD
+    case OTHER_CREDIT_CARD
+    case GIFT_CARD
+    case CASH
+    case EBT_FOOD_STAMP
+    case EBT_CASH_BENEFIT
+    case PAYPAL
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension IngenicoAPIKit.GAPI.Transaction {
+  public enum CardTypes : Swift.Int {
+    case ALL_CARD_TYPES
+    case DEBIT
+    case CREDIT
+    case GIFT
+    case EBT
+    case LTM_CARD
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+public protocol _ProtoGAPISessionDelegate : AnyObject {
+  func connectionLost(reconnectionInProgress: Swift.Bool)
+  func connectionRestored()
+}
+extension IngenicoAPIKit.GAPI {
+  public typealias GAPISessionDelegate = IngenicoAPIKit._ProtoGAPISessionDelegate
+}
+public protocol _ProtoPrinterConfiguration {
+  var width: Swift.Int { get }
+}
+extension IngenicoAPIKit.GAPI.PrinterManager {
+  public typealias PrinterConfiguration = IngenicoAPIKit._ProtoPrinterConfiguration
+}
+extension IngenicoAPIKit.GAPI.Transaction {
+  public enum PaymentMeans : Swift.Int {
+    case SWIPE
+    case CONTACT_CHIP
+    case CONTACTLESS
+    case MANUAL_ENTRY
+    case CHECK
+    case NO_PAYMENT_MEANS
+    case CUSTOM_1
+    case CUSTOM_2
+    case CUSTOM_3
+    case CUSTOM_4
+    case CUSTOM_5
+    case CUSTOM_6
+    case CUSTOM_7
+    case CUSTOM_8
+    public static let predefinedPaymentMeans: [IngenicoAPIKit.GAPI.Transaction.PaymentMeans : Swift.String]
+    public static func == (lhs: IngenicoAPIKit.GAPI.Transaction.PaymentMeanData, rhs: IngenicoAPIKit.GAPI.Transaction.PaymentMeans) -> Swift.Bool
+    public static func == (lhs: IngenicoAPIKit.GAPI.Transaction.PaymentMeans, rhs: IngenicoAPIKit.GAPI.Transaction.PaymentMeanData) -> Swift.Bool
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+public protocol LoggerDelegate : AnyObject {
+  func didLog(_ severity: IngenicoAPIKit.Logger.LogLevel, _ message: Swift.String)
+}
+@_hasMissingDesignatedInitializers public class Logger {
+  public static var logPCL: Swift.Bool
+  public static var shared: IngenicoAPIKit.Logger
+  public var level: IngenicoAPIKit.Logger.LogLevel
+  weak public var loggerDelegate: IngenicoAPIKit.LoggerDelegate?
+  public enum LogLevel : Swift.Int {
+    case noLog
+    case fatal
+    case error
+    case warning
+    case notice
+    case info
+    case debug
+    case trace
+    case pcl
+    case unknown
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc deinit
+}
+extension IngenicoAPIKit.GAPI {
+  @_hasMissingDesignatedInitializers public class PrinterManager {
+    weak public var delegate: IngenicoAPIKit.GAPI.PrinterManager.Delegate? {
+      get
+      set
+    }
+    public func print(image: Swift.String, width: Swift.Int, height: Swift.Int) throws
+    public func print(image: Foundation.Data, width: Swift.Int, height: Swift.Int) throws
+    public func getConfiguration() throws -> IngenicoAPIKit.GAPI.PrinterManager.PrinterConfiguration
+    public func getStatus() throws -> IngenicoAPIKit.GAPI.PrinterManager.PrinterState
+    @objc deinit
+  }
+}
+extension IngenicoAPIKit.GAPI.PrinterManager {
+  public enum Errors : Swift.Error {
+    case NO_PRINTER
+    case WRONG_WIDTH
+    case NO_PAPER
+    case PRINTER_NOT_AVALAIBLE
+    case MISSING_PARAMETER
+    case PRINTING_ERROR
+    case UNDEFINED
+    public static func == (a: IngenicoAPIKit.GAPI.PrinterManager.Errors, b: IngenicoAPIKit.GAPI.PrinterManager.Errors) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+}
+public protocol TerminalInfoResult {
+  var uin: Swift.String? { get }
+  var tid: Swift.String? { get }
+  var mid: Swift.String? { get }
+  var cid: Swift.String? { get }
+  var estateOwnerId: Swift.String? { get }
+  var esspName: Swift.String? { get }
+  var esspId: Swift.String? { get }
+  var serialNumber: Swift.String? { get }
+  var productReference: Swift.String? { get }
+  var productName: Swift.String? { get }
+  var productFullReference: Swift.String? { get }
+  var productCode: Swift.String? { get }
+  var constructorCode: Swift.String? { get }
+  var terminalType: Swift.String? { get }
+  var systemVersion: Swift.String? { get }
+  var sdkVersion: Swift.String? { get }
+  var sdkBuild: Swift.String? { get }
+}
+extension IngenicoAPIKit.GAPI {
+  public func getTerminalInfo() throws -> IngenicoAPIKit.TerminalInfoResult
+}
+public protocol _ProtoPrintEvent {
+  var printing: Swift.Bool { get }
+}
+extension IngenicoAPIKit.GAPI.PrinterManager {
+  public typealias PrintEvent = IngenicoAPIKit._ProtoPrintEvent
+}
+public struct GAPIRecoveryInputData {
+  public let recoveryId: Swift.Int
+  public init(recoveryId: Swift.Int)
+}
+public typealias BYTE = Swift.UInt8
+public typealias Long = Swift.Int64
+public typealias BigDecimal = Foundation.Decimal
+extension IngenicoAPIKit.GAPI {
+  @_hasMissingDesignatedInitializers public class Transaction {
+    weak public var delegate: IngenicoAPIKit.GAPI.Transaction.TransactionDelegate?
+    public func start(_ inputData: IngenicoAPIKit.GAPI.Transaction.TransactionInputData) throws -> IngenicoAPIKit.GAPI.Transaction.TransactionRequest
+    public func recover(_ inputData: IngenicoAPIKit.GAPIRecoveryInputData) throws -> IngenicoAPIKit.GAPI.Transaction.TransactionResult
+    public func getAvailableCurrencies() throws -> [IngenicoAPIKit.GAPI.Transaction.Currency]
+    public func getAvailableTransactionTypeList() throws -> [IngenicoAPIKit.GAPI.Transaction.TransactionType]
+    public func getAvailablePaymentMeansList() throws -> [IngenicoAPIKit.GAPI.Transaction.PaymentMeanData]
+    public func abortOngoingTransaction() throws -> Swift.Bool
+    @objc deinit
+  }
+}
+public protocol _ProtoPrinterState {
+  var noPaper: Swift.Bool { get }
+  var printing: Swift.Bool { get }
+}
+extension IngenicoAPIKit.GAPI.PrinterManager {
+  public typealias PrinterState = IngenicoAPIKit._ProtoPrinterState
+}
+extension IngenicoAPIKit.GAPI.Transaction.Errors : Swift.Equatable {}
+extension IngenicoAPIKit.GAPI.Transaction.Errors : Swift.Hashable {}
+extension IngenicoAPIKit.GAPI.Transaction.AuthorizationType : Swift.Equatable {}
+extension IngenicoAPIKit.GAPI.Transaction.AuthorizationType : Swift.Hashable {}
+extension IngenicoAPIKit.GAPI.PCLErrors : Swift.Equatable {}
+extension IngenicoAPIKit.GAPI.PCLErrors : Swift.Hashable {}
+extension IngenicoAPIKit.GAPI.Survey.SurveyFormat : Swift.Equatable {}
+extension IngenicoAPIKit.GAPI.Survey.SurveyFormat : Swift.Hashable {}
+extension IngenicoAPIKit.GAPI.Survey.SurveyFormat : Swift.RawRepresentable {}
+extension IngenicoAPIKit.GAPI.Transaction.TransactionStatus : Swift.Equatable {}
+extension IngenicoAPIKit.GAPI.Transaction.TransactionStatus : Swift.Hashable {}
+extension IngenicoAPIKit.GAPI.Transaction.TransactionStatus : Swift.RawRepresentable {}
+extension IngenicoAPIKit.GAPI.Transaction.MotoType : Swift.Equatable {}
+extension IngenicoAPIKit.GAPI.Transaction.MotoType : Swift.Hashable {}
+extension IngenicoAPIKit.GAPI.Transaction.MotoType : Swift.RawRepresentable {}
+extension IngenicoAPIKit.GAPI.Transaction.CardBrands : Swift.Equatable {}
+extension IngenicoAPIKit.GAPI.Transaction.CardBrands : Swift.Hashable {}
+extension IngenicoAPIKit.GAPI.Transaction.CardBrands : Swift.RawRepresentable {}
+extension IngenicoAPIKit.GAPI.Transaction.CardTypes : Swift.Equatable {}
+extension IngenicoAPIKit.GAPI.Transaction.CardTypes : Swift.Hashable {}
+extension IngenicoAPIKit.GAPI.Transaction.CardTypes : Swift.RawRepresentable {}
+extension IngenicoAPIKit.GAPI.Transaction.PaymentMeans : Swift.Equatable {}
+extension IngenicoAPIKit.GAPI.Transaction.PaymentMeans : Swift.Hashable {}
+extension IngenicoAPIKit.GAPI.Transaction.PaymentMeans : Swift.RawRepresentable {}
+extension IngenicoAPIKit.Logger.LogLevel : Swift.Equatable {}
+extension IngenicoAPIKit.Logger.LogLevel : Swift.Hashable {}
+extension IngenicoAPIKit.Logger.LogLevel : Swift.RawRepresentable {}
+extension IngenicoAPIKit.GAPI.PrinterManager.Errors : Swift.Equatable {}
+extension IngenicoAPIKit.GAPI.PrinterManager.Errors : Swift.Hashable {}

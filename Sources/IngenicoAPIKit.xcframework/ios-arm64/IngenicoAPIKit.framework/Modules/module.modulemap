@@ -1,0 +1,11 @@
+framework module IngenicoAPIKit {
+  umbrella header "IngenicoAPIKit.h"
+
+  export *
+  module * { export * }
+}
+
+module IngenicoAPIKit.Swift {
+    header "IngenicoAPIKit-Swift.h"
+    requires objc
+}
